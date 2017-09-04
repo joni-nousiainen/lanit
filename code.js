@@ -40,11 +40,13 @@ $(document).ready(function () {
     'UFO X-Com': []
   }
 
+  var selectedParty = localStorage.getItem('party')
   var selectedName = localStorage.getItem('name')
 
-  if (selectedName) {
+  if (selectedParty && selectedName) {
     $('#vote-games-section').removeClass('d-none')
 
+    $('#party').text(selectedParty)
     $('#name').text(selectedName)
 
     $('#logout-button').click(function (e) {
@@ -102,7 +104,7 @@ $(document).ready(function () {
       $('#games-table').append(row)
     })
   }
-  else {
+  else if (selectedParty) {
     $.each(names, function(key, name) {
       $('#names')
         .append(
@@ -131,7 +133,8 @@ $(document).ready(function () {
       var newName = $('#new-name-field').val()
 
       if (!newName) {
-        alert('Syötä ensin nimi!')
+        alert('Syötä nimi!')
+        return
       }
 
       for(var i = 0; i < names.length; i++) {
@@ -145,6 +148,27 @@ $(document).ready(function () {
     })
 
     $('#select-name-section').removeClass('d-none')
+  }
+  else {
+    $('#enter-party-code-section').removeClass('d-none')
+
+    $('#confirm-party-code-button').click(function(e) {
+      e.preventDefault()
+
+      var newParty = $('#newParty').val()
+
+      if (!newParty) {
+        alert('Syötä tapahtuman koodi!')
+        return
+      }
+
+      selectParty(newParty)
+    })
+
+    function selectParty(party) {
+      localStorage.setItem('party', party)
+      window.location.reload()
+    }
   }
 
 })

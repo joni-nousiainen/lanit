@@ -9,7 +9,21 @@
 </head>
 <body>
 
-<!-- TODO: Valitse LAN-tapahtuma (valikko tai koodi) -->
+<div id="enter-party-code-section" class="container mt-3 mb-2 d-none">
+  <form>
+    <div class="form-group row">
+      <div class="col-sm-6 col-md-4">
+        <label for="newParty">Syötä tapahtumakoodi</label>
+        <input id="newParty" class="form-control" placeholder="Kirjoita tapahtuman koodi tähän...">
+      </div>
+      <div class="col-sm-3 col-md-2 align-self-end">
+        <button id="confirm-party-code-button" type="button" class="btn btn-primary btn-block mt-2">
+          OK
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
 
 <div id="select-name-section" class="container mt-3 mb-2 d-none">
   <form>
@@ -40,7 +54,12 @@
 <div id="vote-games-section" class="container mt-3 mb-2 d-none">
   <div class="row">
     <div class="col-6">
-      <p>Olet kirjautunut nimellä <span id="name"></span></p>
+      <p>
+        Olet kirjautunut tapahtumaan
+        <span id="party"></span>
+        nimellä
+        <span id="name"></span>
+      </p>
     </div>
     <div class="col-6">
       <p>
@@ -64,10 +83,10 @@
   <div class="row mt-5">
     <div class="col-sm-6 col-md-4">
       <label for="new-game-field">Lisää uusi peli</label>
-      <input id="new-game-field" class="form-control" type="text" placeholder="Pelin nimi...">
+      <input id="new-game-field" class="form-control" type="text" placeholder="Pelin nimi..." disabled>
     </div>
     <div class="col-sm-3 col-md-2 align-self-end">
-      <button id="add-new-game-button" type="button" class="btn btn-primary btn-block mt-2">
+      <button id="add-new-game-button" type="button" class="btn btn-primary btn-block mt-2" disabled>
         <i class="fa fa-plus" aria-hidden="true"></i>
         Lisää
       </button>
