@@ -40,7 +40,7 @@ $(document).ready(function () {
     'UFO X-Com': []
   }
 
-  var selectedName = sessionStorage.getItem('name')
+  var selectedName = localStorage.getItem('name')
 
   if (selectedName) {
     $('#vote-games-section').removeClass('d-none')
@@ -49,7 +49,7 @@ $(document).ready(function () {
 
     $('#logout-button').click(function (e) {
       e.preventDefault()
-      sessionStorage.clear()
+      localStorage.clear()
       window.location.reload()
     })
 
@@ -68,7 +68,7 @@ $(document).ready(function () {
 
       var functionsCol = $('<td></td>')
       if ($.inArray(selectedName, voters) > -1) {
-        var noButton = $('<button></button>')
+        var noButton = $('<a href="#"></a>')
           .addClass('btn btn-secondary btn-sm')
           .append(
             $('<i class="fa fa-times" aria-hidden="true"></i>')
@@ -77,7 +77,7 @@ $(document).ready(function () {
         functionsCol.append(noButton)
       }
       else {
-        var yesButton = $('<button></button>')
+        var yesButton = $('<a href="#"></a>')
           .addClass('btn btn-primary btn-sm')
           .append(
             $('<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>')
@@ -116,7 +116,7 @@ $(document).ready(function () {
     })
 
     function selectName(name) {
-      sessionStorage.setItem('name', name)
+      localStorage.setItem('name', name)
       window.location.reload()
     }
 

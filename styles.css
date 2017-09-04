@@ -8,11 +8,12 @@ div {
 
 .voter {
   border-radius: 10%;
-  background-color: navajowhite;
+  color: white;
+  background-color: #FF9626;
 }
 
 .voter-me {
   border-radius: 10%;
-  color: navajowhite;
-  background-color: darkslategray;
+  color: #FF9626;
+  background-color: black;
 }
