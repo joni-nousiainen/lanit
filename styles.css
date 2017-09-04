@@ -1,0 +1,18 @@
+div {
+  /*border: 1px solid orangered;*/
+}
+
+#name {
+  font-weight: bold;
+}
+
+.voter {
+  border-radius: 10%;
+  background-color: navajowhite;
+}
+
+.voter-me {
+  border-radius: 10%;
+  color: navajowhite;
+  background-color: darkslategray;
+}
