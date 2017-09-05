@@ -1,4 +1,4 @@
-package info.joninousiainen.lanit.model;
+package info.joninousiainen.lanit;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
