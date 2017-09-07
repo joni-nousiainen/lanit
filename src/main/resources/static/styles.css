@@ -14,7 +14,5 @@ div {
 }
 
 .voter-me {
-  border-radius: 10%;
-  color: #FF9626;
-  background-color: black;
+  opacity: .7;
 }

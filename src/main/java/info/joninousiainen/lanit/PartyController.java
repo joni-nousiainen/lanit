@@ -69,15 +69,27 @@ public class PartyController {
       partyCode);
   }
 
-  @PostMapping("/{partyCode}/vote")
-  public void addVote(@PathVariable String partyCode,
+  @PostMapping("/{partyCode}/upvote")
+  public void upvote(@PathVariable String partyCode,
                       @RequestParam("gamer") String gamer,
                       @RequestParam("game") String game) {
-    LOG.info("Action in party {}: {} voted for {}", partyCode, gamer, game);
+    LOG.info("Action in party {}: {} upvoted {}", partyCode, gamer, game);
     jdbcTemplate.update(
       "INSERT INTO votes (gamer_id, game_id)" +
         " (SELECT g1.id, g2.id FROM gamers g1, games g2 WHERE g1.name = ? AND g2.name = ?)" +
         " ON CONFLICT DO NOTHING",
       gamer, game);
+  }
+
+  @PostMapping("/{partyCode}/downvote")
+  public void downvote(@PathVariable String partyCode,
+                      @RequestParam("gamer") String gamer,
+                      @RequestParam("game") String game) {
+    LOG.info("Action in party {}: {} downvoted {}", partyCode, gamer, game);
+    jdbcTemplate.update(
+      "DELETE FROM votes"
+      + " WHERE gamer_id IN (SELECT g.id FROM gamers g LEFT JOIN parties p ON g.party_id = p.id WHERE g.name = ? AND p.code = ?)"
+      + " AND game_id IN (SELECT g.id FROM games g LEFT JOIN parties p ON g.party_id = p.id WHERE g.name = ? AND p.code = ?)",
+      gamer, partyCode, game, partyCode);
   }
 }
