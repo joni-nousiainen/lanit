@@ -127,7 +127,14 @@ $(document).ready(function () {
       })
 
       $('#gamers').change(function (e) {
-        selectGamer($(this).val())
+        var gamer = $(this).val();
+
+        if (!gamer) {
+          alert('Valitse pelaaja!')
+          return
+        }
+
+        selectGamer(gamer)
       })
 
       function selectGamer(gamer) {
