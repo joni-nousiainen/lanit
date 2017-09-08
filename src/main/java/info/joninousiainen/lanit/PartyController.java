@@ -97,6 +97,15 @@ public class PartyController {
       gamer, partyCode, game, partyCode);
   }
 
+  @PostMapping("/{partyCode}/gamers")
+  public void addNewGamer(@PathVariable String partyCode,
+                          @RequestParam("gamer") String gamer) {
+    gamer = gamer.trim();
+    LOG.info("Action in party {}: New gamer {} was added", partyCode, gamer);
+    Integer partyId = jdbcTemplate.queryForObject("SELECT id FROM parties WHERE code = ?", Integer.class, partyCode);
+    jdbcTemplate.update("INSERT INTO gamers (party_id, name) VALUES (?, ?)", partyId, gamer);
+  }
+
   @PostMapping("/{partyCode}/games")
   public void addNewGame(@PathVariable String partyCode,
                          @RequestParam("gamer") String gamer,

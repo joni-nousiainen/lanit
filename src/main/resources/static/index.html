@@ -11,12 +11,12 @@
 
 <div id="enter-party-code-section" class="container mt-3 mb-2 d-none">
   <form>
-    <div class="form-group row">
-      <div class="col-sm-6 col-md-4">
+    <div class="row">
+      <div class="col-sm-6 col-md-4 form-group">
         <label for="newParty">Syötä tapahtumakoodi</label>
         <input id="newParty" class="form-control" placeholder="Kirjoita tapahtuman koodi tähän...">
       </div>
-      <div class="col-sm-3 col-md-2 align-self-end">
+      <div class="col-sm-3 col-md-2 form-group align-self-end">
         <button id="confirm-party-code-button" type="button" class="btn btn-primary btn-block mt-2">
           OK
         </button>
@@ -25,26 +25,34 @@
   </form>
 </div>
 
-<div id="select-name-section" class="container mt-3 mb-2 d-none">
+<div id="select-gamer-section" class="container mt-3 mb-2 d-none">
   <form>
-    <div class="form-group row">
+    <div class="row mb-3">
+      <div class="col-12">
+        Olet valinnut tapahtuman
+        <span class="partyName"></span>
+        <span class="partyCode"></span>.
+        <a id="change-party-link" href="#">Vaihda tapahtuma</a>.
+      </div>
+    </div>
+    <div class="row form-group mb-3">
       <div class="col-sm-9 col-md-6">
-        <label for="names">Kuka sinä olet?</label>
-        <select id="names" class="form-control">
+        <label for="gamers">Kuka olet?</label>
+        <select id="gamers" class="form-control">
           <option value="" selected></option>
         </select>
-        <small id="add-new-name-link" class="form-text text-muted">
-          Puuttuuko nimi listasta? <a href="#">Lisää uusi nimi</a>.
+        <small class="form-text text-muted">
+          Puuttuuko nimi listasta? <a id="show-add-new-gamer-section-link" href="#">Lisää uusi pelaaja</a>.
         </small>
       </div>
     </div>
-    <div id="add-new-name-section" class="form-group row d-none">
+    <div id="add-new-gamer-section" class="row form-group d-none">
       <div class="col-sm-6 col-md-4">
-        <label for="new-name-field">Nimi</label>
-        <input id="new-name-field" class="form-control">
+        <label for="new-gamer-field">Nimi</label>
+        <input id="new-gamer-field" class="form-control">
       </div>
       <div class="col-sm-3 col-md-2 align-self-end">
-        <button id="add-new-name-button" type="button" class="btn btn-primary btn-block mt-2">
+        <button id="add-new-gamer-button" type="button" class="btn btn-primary btn-block mt-2">
           <i class="fa fa-plus" aria-hidden="true"></i>
           Lisää
         </button>
@@ -64,10 +72,10 @@
       </p>
       <p>
         Olet kirjautunut tapahtumaan
-        <span id="partyName"></span>
-        <span id="partyCode"></span>
+        <span class="partyName"></span>
+        <span class="partyCode"></span>
         nimellä
-        <span id="gamer"></span>
+        <span class="gamerName"></span>
       </p>
     </div>
   </div>

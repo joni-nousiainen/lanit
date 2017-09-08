@@ -2,19 +2,23 @@ $(document).ready(function () {
 
   var urlPrefix = '/api/v1/parties/'
   var selectedParty = localStorage.getItem('party')
-  var selectedName = localStorage.getItem('name')
+  var selectedGamer = localStorage.getItem('gamer')
 
-  if (selectedParty && selectedName) {
+  if (selectedParty) {
     $.get(urlPrefix + selectedParty, function (party) {
-      $('#partyName').text(party.name)
-      $('#partyCode').text('(' + party.code + ')')
+      $('.partyName').text(party.name)
+      $('.partyCode').text('(' + party.code + ')')
     })
+  }
 
-    $('#gamer').text(selectedName)
+  if (selectedGamer) {
+    $('.gamerName').text(selectedGamer)
+  }
 
+  if (selectedParty && selectedGamer) {
     $('#logout-button').click(function (e) {
       e.preventDefault()
-      localStorage.clear()
+      localStorage.removeItem('gamer')
       window.location.reload()
     })
 
@@ -32,7 +36,7 @@ $(document).ready(function () {
         row.append(gameCol)
 
         var functionsCol = $('<td></td>')
-        if ($.inArray(selectedName, game.voters) > -1) {
+        if ($.inArray(selectedGamer, game.voters) > -1) {
           var noButton = $('<a href="#"></a>')
             .addClass('btn btn-secondary btn-sm')
             .append(
@@ -42,7 +46,7 @@ $(document).ready(function () {
             .click(function(e) {
               e.preventDefault()
               $.post(urlPrefix + selectedParty + '/downvote', {
-                gamer: selectedName,
+                gamer: selectedGamer,
                 game: game.game
               }).done(function() {
                 window.location.reload()
@@ -60,7 +64,7 @@ $(document).ready(function () {
             .click(function(e) {
               e.preventDefault()
               $.post(urlPrefix + selectedParty + '/upvote', {
-                gamer: selectedName,
+                gamer: selectedGamer,
                 game: game.game
               }).done(function() {
                 window.location.reload()
@@ -75,7 +79,7 @@ $(document).ready(function () {
           var voterSpan = $('<span></span>')
             .addClass('voter mr-2 p-1 pl-2 pr-2')
             .text(name)
-          if (name == selectedName) {
+          if (name == selectedGamer) {
             voterSpan.addClass('voter-me')
           }
           votesCol.append(voterSpan)
@@ -96,7 +100,7 @@ $(document).ready(function () {
       }
 
       $.post(urlPrefix + selectedParty + '/games', {
-        gamer: selectedName,
+        gamer: selectedGamer,
         game: newGame
       }).done(function() {
           window.location.reload()
@@ -106,51 +110,52 @@ $(document).ready(function () {
     $('#vote-games-section').removeClass('d-none')
   }
   else if (selectedParty) {
+    $('#change-party-link').click(function (e) {
+      e.preventDefault()
+      localStorage.removeItem('party')
+      window.location.reload()
+    })
+
     var gamersUrl = urlPrefix + selectedParty + '/gamers'
     $.get(gamersUrl, function (names) {
       $.each(names, function(key, name) {
-        $('#names')
+        $('#gamers')
           .append(
             $('<option></option>')
               .attr('value', name)
               .text(name))
       })
 
-      $('#names').change(function (e) {
-        selectName($(this).val())
+      $('#gamers').change(function (e) {
+        selectGamer($(this).val())
       })
 
-      function selectName(name) {
-        localStorage.setItem('name', name)
+      function selectGamer(gamer) {
+        localStorage.setItem('gamer', gamer)
         window.location.reload()
       }
 
-      $('#add-new-name-link').click(function(e) {
+      $('#show-add-new-gamer-section-link').click(function(e) {
         e.preventDefault()
-        $('#add-new-name-section').toggleClass('d-none')
+        $('#add-new-gamer-section').toggleClass('d-none')
       })
 
-      $('#add-new-name-button').click(function(e) {
+      $('#add-new-gamer-button').click(function(e) {
         e.preventDefault()
 
-        var newName = $('#new-name-field').val()
+        var newGamer = $('#new-gamer-field').val()
 
-        if (!newName) {
+        if (!newGamer) {
           alert('Syötä nimi!')
           return
         }
 
-        for(var i = 0; i < names.length; i++) {
-          if (names[i].toLocaleLowerCase() == newName.toLowerCase()) {
-            alert('Nimi "' + newName + '" löytyy jo listasta!')
-            return
-          }
-        }
-
-        selectName(newName)
+        $.post(urlPrefix + selectedParty + '/gamers', { gamer: newGamer }).done(function () {
+          selectGamer(newGamer)
+        })
       })
 
-      $('#select-name-section').removeClass('d-none')
+      $('#select-gamer-section').removeClass('d-none')
     })
   }
   else {
