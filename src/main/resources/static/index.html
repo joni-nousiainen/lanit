@@ -55,20 +55,18 @@
 
 <div id="vote-games-section" class="container mt-3 mb-2 d-none">
   <div class="row">
-    <div class="col-6">
+    <div class="col-12">
+      <p class="float-right">
+        <a id="logout-button" href="#">
+          Kirjaudu ulos
+          <i class="fa fa-sign-out" aria-hidden="true"></i>
+        </a>
+      </p>
       <p>
         Olet kirjautunut tapahtumaan
         <span id="party"></span>
         nimellä
         <span id="name"></span>
-      </p>
-    </div>
-    <div class="col-6">
-      <p>
-        <a id="logout-button" class="float-right" href="#">
-          Kirjaudu ulos
-          <i class="fa fa-sign-out" aria-hidden="true"></i>
-        </a>
       </p>
     </div>
   </div>
@@ -85,10 +83,10 @@
   <div class="row mt-5">
     <div class="col-sm-6 col-md-4 form-group">
       <label for="new-game-field">Lisää uusi peli</label>
-      <input id="new-game-field" class="form-control" type="text" placeholder="Pelin nimi..." disabled>
+      <input id="new-game-field" class="form-control" type="text" placeholder="Pelin nimi...">
     </div>
     <div class="col-sm-3 col-md-2 form-group align-self-end">
-      <button id="add-new-game-button" type="button" class="btn btn-primary btn-block mt-2" disabled>
+      <button id="add-new-game-button" type="button" class="btn btn-primary btn-block mt-2">
         <i class="fa fa-plus" aria-hidden="true"></i>
         Lisää
       </button>

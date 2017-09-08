@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/party")
+@RequestMapping("/api/v1/parties")
+@Transactional
 public class PartyController {
   private final Logger LOG = LoggerFactory.getLogger(getClass());
 
@@ -25,6 +27,7 @@ public class PartyController {
   }
 
   @GetMapping(value = "/{partyCode}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @Transactional(readOnly =  true)
   public Party getParty(@PathVariable String partyCode) {
     return jdbcTemplate.queryForObject("select * from parties where code = ?",
       (resultSet, i) -> new Party(
@@ -35,6 +38,7 @@ public class PartyController {
   }
 
   @GetMapping(value = "/{partyCode}/gamers", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @Transactional(readOnly = true)
   public List<String> getPartyGamers(@PathVariable String partyCode) {
     return jdbcTemplate.queryForList(
       "select g.name from parties p left join gamers g on p.id = g.party_id where p.code = ? order by g.name",
@@ -43,6 +47,7 @@ public class PartyController {
   }
 
   @GetMapping(value = "/{partyCode}/games-with-votes", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @Transactional(readOnly = true)
   public List getPartyGames(@PathVariable String partyCode) {
     return jdbcTemplate.query(
       "SELECT\n" +
@@ -91,5 +96,16 @@ public class PartyController {
       + " WHERE gamer_id IN (SELECT g.id FROM gamers g LEFT JOIN parties p ON g.party_id = p.id WHERE g.name = ? AND p.code = ?)"
       + " AND game_id IN (SELECT g.id FROM games g LEFT JOIN parties p ON g.party_id = p.id WHERE g.name = ? AND p.code = ?)",
       gamer, partyCode, game, partyCode);
+  }
+
+  @PostMapping("/{partyCode}/games")
+  public void addNewGame(@PathVariable String partyCode,
+                         @RequestParam("gamer") String gamer,
+                         @RequestParam("game") String game) {
+    game = game.trim();
+    LOG.info("Action in party {}: {} added new game {}", partyCode, gamer, game);
+    Integer partyId = jdbcTemplate.queryForObject("SELECT id FROM parties WHERE code = ?", Integer.class, partyCode);
+    jdbcTemplate.update("INSERT INTO games (party_id, name) VALUES (?, ?)", partyId, game);
+    upvote(partyCode, gamer, game);
   }
 }

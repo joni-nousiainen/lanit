@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+  var urlPrefix = '/api/v1/parties/'
   var selectedParty = localStorage.getItem('party')
   var selectedName = localStorage.getItem('name')
 
@@ -13,9 +14,9 @@ $(document).ready(function () {
       window.location.reload()
     })
 
-    var gamesWithVotesUrl = '/api/v1/party/' + selectedParty + '/games-with-votes'
+    var gamesWithVotesUrl = urlPrefix + selectedParty + '/games-with-votes'
     $.get(gamesWithVotesUrl, function(gamesWithVotes) {
-      $.each(gamesWithVotes, function(blah, game) {
+      $.each(gamesWithVotes, function(parameterThatIsNotNeeded, game) {
         var row = $('<tr></tr>')
 
         var gameCol = $('<td></td>')
@@ -36,7 +37,7 @@ $(document).ready(function () {
             .attr('title', 'Muutin mieleni, poista ääni.')
             .click(function(e) {
               e.preventDefault()
-              $.post('/api/v1/party/' + selectedParty + '/downvote', {
+              $.post(urlPrefix + selectedParty + '/downvote', {
                 gamer: selectedName,
                 game: game.game
               }).done(function() {
@@ -54,7 +55,7 @@ $(document).ready(function () {
             .attr('title', 'Jee, haluan pelata!')
             .click(function(e) {
               e.preventDefault()
-              $.post('/api/v1/party/' + selectedParty + '/upvote', {
+              $.post(urlPrefix + selectedParty + '/upvote', {
                 gamer: selectedName,
                 game: game.game
               }).done(function() {
@@ -81,10 +82,27 @@ $(document).ready(function () {
       })
     })
 
+    $('#add-new-game-button').click(function (e) {
+      e.preventDefault()
+
+      var newGame = $('#new-game-field').val()
+      if (!newGame) {
+        alert('Syötä pelin nimi!')
+        return
+      }
+
+      $.post(urlPrefix + selectedParty + '/games', {
+        gamer: selectedName,
+        game: newGame
+      }).done(function() {
+          window.location.reload()
+        })
+    })
+
     $('#vote-games-section').removeClass('d-none')
   }
   else if (selectedParty) {
-    var gamersUrl = '/api/v1/party/' + selectedParty + '/gamers'
+    var gamersUrl = urlPrefix + selectedParty + '/gamers'
     $.get(gamersUrl, function (names) {
       $.each(names, function(key, name) {
         $('#names')
