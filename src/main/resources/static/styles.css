@@ -2,9 +2,13 @@ div {
   /*border: 1px solid orangered;*/
 }
 
-#party,
-#name {
+#partyName,
+#gamer {
   font-weight: bold;
+}
+
+#partyCode {
+  opacity: .7;
 }
 
 .voter {

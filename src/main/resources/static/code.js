@@ -5,8 +5,12 @@ $(document).ready(function () {
   var selectedName = localStorage.getItem('name')
 
   if (selectedParty && selectedName) {
-    $('#party').text(selectedParty)
-    $('#name').text(selectedName)
+    $.get(urlPrefix + selectedParty, function (party) {
+      $('#partyName').text(party.name)
+      $('#partyCode').text('(' + party.code + ')')
+    })
+
+    $('#gamer').text(selectedName)
 
     $('#logout-button').click(function (e) {
       e.preventDefault()

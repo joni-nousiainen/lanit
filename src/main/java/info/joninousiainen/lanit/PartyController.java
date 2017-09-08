@@ -29,9 +29,8 @@ public class PartyController {
   @GetMapping(value = "/{partyCode}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   @Transactional(readOnly =  true)
   public Party getParty(@PathVariable String partyCode) {
-    return jdbcTemplate.queryForObject("select * from parties where code = ?",
+    return jdbcTemplate.queryForObject("SELECT * FROM parties WHERE code = ?",
       (resultSet, i) -> new Party(
-        resultSet.getInt("id"),
         resultSet.getString("code"),
         resultSet.getString("name")
       ), partyCode);
