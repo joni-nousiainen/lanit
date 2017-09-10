@@ -3,7 +3,9 @@ package info.joninousiainen.lanit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -34,6 +36,11 @@ public class PartyController {
         resultSet.getString("code"),
         resultSet.getString("name")
       ), partyCode);
+  }
+
+  @ExceptionHandler
+  public ResponseEntity handleEmptyResultDataAccessException(EmptyResultDataAccessException exception) {
+    return ResponseEntity.notFound().build();
   }
 
   @GetMapping(value = "/{partyCode}/gamers", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

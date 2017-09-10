@@ -6,8 +6,21 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="styles.css">
+<title>Lanit</title>
 </head>
 <body>
+
+<div id="party-not-found-section" class="container mt-3 mb-2 d-none">
+  <div class="row">
+    <div class="col-12 p-3 text-white bg-danger">
+      Tapahtumaa <span class="invalidPartyCode"></span> ei ole olemassa!
+      <a class="change-party-link text-white" href="#">
+        Vaihda tapahtuma
+        <i class="fa fa-sign-out" aria-hidden="true"></i>
+      </a>.
+    </div>
+  </div>
+</div>
 
 <div id="enter-party-code-section" class="container mt-3 mb-2 d-none">
   <form>
@@ -32,7 +45,10 @@
         Olet valinnut tapahtuman
         <span class="partyName"></span>
         <span class="partyCode"></span>.
-        <a id="change-party-link" href="#">Vaihda tapahtuma</a>.
+        <a class="change-party-link" href="#">
+          Vaihda tapahtuma
+          <i class="fa fa-sign-out" aria-hidden="true"></i>
+        </a>.
       </div>
     </div>
     <div class="row form-group mb-3">

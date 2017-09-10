@@ -1,21 +1,57 @@
 $(document).ready(function () {
 
   var urlPrefix = '/api/v1/parties/'
+
   var selectedParty = localStorage.getItem('party')
+  if (!selectedParty) {
+    selectedParty = getQueryParam('partyCode')
+  }
+  // Based on https://stackoverflow.com/a/901144
+  function getQueryParam(name) {
+    name = name.replace(/[\[\]]/g, '\\$&')
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)')
+    var results = regex.exec(window.location.href)
+    if (!results) {
+      return null
+    }
+    else if (!results[2]) {
+      return ''
+    }
+    else {
+      return decodeURIComponent(results[2].replace(/\+/g, ' '))
+    }
+  }
+
   var selectedGamer = localStorage.getItem('gamer')
 
   if (selectedParty) {
-    $.get(urlPrefix + selectedParty, function (party) {
-      $('.partyName').text(party.name)
-      $('.partyCode').text('(' + party.code + ')')
-    })
+    $.get(urlPrefix + selectedParty)
+      .done(function (party) {
+        $('.partyName').text(party.name)
+        $('.partyCode').text('(' + party.code + ')')
+
+        if (selectedGamer) {
+          showVoteGamesSection()
+        }
+        else {
+          showSelectGamerSection()
+        }
+      })
+      .fail(function (response) {
+        if (response.status === 404) {
+          $('.invalidPartyCode').text(selectedParty)
+          $('#party-not-found-section').removeClass('d-none')
+          $('#select-gamer-section').addClass('d-none')
+        }
+      })
+  }
+  else {
+    showEnterPartyCodeSection()
   }
 
-  if (selectedGamer) {
+  function showVoteGamesSection() {
     $('.gamerName').text(selectedGamer)
-  }
 
-  if (selectedParty && selectedGamer) {
     $('#logout-button').click(function (e) {
       e.preventDefault()
       localStorage.removeItem('gamer')
@@ -109,13 +145,8 @@ $(document).ready(function () {
 
     $('#vote-games-section').removeClass('d-none')
   }
-  else if (selectedParty) {
-    $('#change-party-link').click(function (e) {
-      e.preventDefault()
-      localStorage.removeItem('party')
-      window.location.reload()
-    })
 
+  function showSelectGamerSection() {
     var gamersUrl = urlPrefix + selectedParty + '/gamers'
     $.get(gamersUrl, function (names) {
       $.each(names, function(key, name) {
@@ -165,7 +196,8 @@ $(document).ready(function () {
       $('#select-gamer-section').removeClass('d-none')
     })
   }
-  else {
+
+  function showEnterPartyCodeSection() {
     $('#enter-party-code-section').removeClass('d-none')
 
     $('#confirm-party-code-button').click(function(e) {
@@ -185,6 +217,16 @@ $(document).ready(function () {
       localStorage.setItem('party', party)
       window.location.reload()
     }
+  }
+
+  $('.change-party-link').click(function (e) {
+    e.preventDefault()
+    resetParty()
+  })
+
+  function resetParty() {
+    localStorage.removeItem('party')
+    window.location = '/'
   }
 
 })
