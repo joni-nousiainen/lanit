@@ -14,7 +14,7 @@
   </parent>
   <scm>
     <connection>scm:git:https://github.com/joni-nousiainen/lanit.git</connection>
-    <developerConnection>scm:git:git@github.com:joni-nousiainen/lanit.git</developerConnection>
+    <developerConnection>scm:git:https://github.com/joni-nousiainen/lanit.git</developerConnection>
     <url>https://github.com/joni-nousiainen/lanit</url>
     <tag>HEAD</tag>
   </scm>
