@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+  // For busting AJAX cache on Windows Phone browser
+  $.ajaxSetup({ cache: false })
+
   var urlPrefix = '/api/v1/parties/'
 
   var selectedParty = localStorage.getItem('party')
