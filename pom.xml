@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>info.joninousiainen</groupId>
   <artifactId>lanit</artifactId>
-  <version>0.2-SNAPSHOT</version>
+  <version>0.1.1</version>
   <packaging>jar</packaging>
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -15,7 +15,7 @@
     <connection>scm:git:https://github.com/joni-nousiainen/lanit.git</connection>
     <developerConnection>scm:git:https://github.com/joni-nousiainen/lanit.git</developerConnection>
     <url>https://github.com/joni-nousiainen/lanit</url>
-    <tag>HEAD</tag>
+    <tag>v0.1.1</tag>
   </scm>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
