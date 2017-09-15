@@ -59,7 +59,7 @@ public class PartyController {
       "SELECT\n" +
         "  g1.name                  AS game,\n" +
         "  count(v.*)               AS votes,\n" +
-        "  string_agg(g2.name, ',') AS voters\n" +
+        "  string_agg(g2.name, ',' ORDER BY g2.name) AS voters\n" +
         "FROM parties p\n" +
         "  LEFT JOIN games g1 ON p.id = g1.party_id\n" +
         "  LEFT JOIN votes v ON g1.id = v.game_id\n" +
